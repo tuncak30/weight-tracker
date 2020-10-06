@@ -1,0 +1,92 @@
+@import "Variables";
+@import 'node_modules/react-big-calendar/lib/sass/styles';
+
+.custom-section-containers{
+  background-color: $dark-gray;
+  border-radius: 5px;
+  padding: 10px;
+  .custom-section-headers{
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+.rbc-calendar{
+  border-right: 1px solid $dark-gray;
+  background-color: $black;
+  .rbc-toolbar{
+    display: none !important;
+  }
+  .rbc-month-view{
+    border: none;
+    .rbc-header{
+      font-weight: lighter;
+      font-size: 1rem;
+      background-color: $dark-gray;
+      border-bottom: none;
+      padding: 22px 10px;
+    }
+    .rbc-day-bg + .rbc-day-bg, .rbc-month-row + .rbc-month-row, .rbc-header + .rbc-header{
+      border-color: $dark-gray;
+    }
+    .rbc-date-cell{
+      font-size: 1.5rem;
+      font-weight: lighter;
+    }
+    .rbc-event{
+      background-color: $pink;
+    }
+    .rbc-row-segment .rbc-event-content{
+      text-align: center;
+    }
+    .rbc-current a{
+      color: $dark-gray;
+    }
+    .rbc-today{
+      background-color: $volt;
+      color: $dark-gray;
+    }
+    .rbc-off-range-bg{
+      background-image: linear-gradient(45deg, #555555 4.55%, #000000 4.55%, #000000 50%, #555555 50%, #555555 54.55%, #000000 54.55%, #000000 100%);
+      background-size: 15.56px 15.56px;
+    }
+  }
+}
+
+body.LIGHT_THEME{
+  #current-date, #weight-difference{
+    color: $black;
+    font-weight: 500;
+  }
+  .custom-section-containers{
+    background-color: #fff;
+  }
+  .rbc-calendar{
+    border-right: 1px solid $light-gray;
+    background-color: $white;
+    border-right: none;
+    .rbc-month-view{
+      .rbc-header{
+        background-color: $dark-gray;
+        color: $white;
+      }
+      .rbc-day-bg + .rbc-day-bg, .rbc-month-row + .rbc-month-row, .rbc-header + .rbc-header{
+        border-color: #ddd;
+      }
+      .rbc-event{
+        background-color: $pink;
+      }
+      .rbc-current a{
+        color: $dark-gray;
+      }
+      .rbc-today{
+        background-color: #efefef;
+        color: $white;
+      }
+      .rbc-off-range-bg{
+        background-image: linear-gradient(45deg, #efefef 4.55%, #fff 4.55%, #fff 50%, #efefef 50%, #efefef 54.55%, #fff 54.55%, #fff 100%);
+        background-size: 15.56px 15.56px;
+      }
+    }
+  }
+}

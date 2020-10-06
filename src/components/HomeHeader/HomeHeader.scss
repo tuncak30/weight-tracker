@@ -1,0 +1,45 @@
+@import "../../styles/Variables.scss";
+
+#home-header{
+  background-color: $dark-gray;
+  padding: 10px 30px;
+  color: $white;
+  font-size: 2rem;
+  font-weight: lighter;
+}
+
+#weight-track-container{
+  margin: 10px 0px;
+  padding: 10px 30px;
+}
+
+#calendar-container{
+  min-height: 100vh;
+  -webkit-box-shadow: 10px 0px 20px 5px rgba(0,0,0,0.1);
+  -moz-box-shadow: 10px 0px 20px 5px rgba(0,0,0,0.1);
+  box-shadow: 10px 0px 20px 5px rgba(0,0,0,0.1);
+  background-color: #fff;
+}
+
+#current-date, #weight-difference{
+  color: $volt;
+}
+
+form{
+  input[type="text"]{
+    background-color: transparent;
+    border: none;
+    border-radius: 0px;
+    font-size: 2rem;
+    color: $white;
+    font-weight: lighter;
+    border-bottom: 1px solid $pink;
+    &:focus{
+      color: $white;
+      background-color: transparent;
+      border-color: $pink;
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+}

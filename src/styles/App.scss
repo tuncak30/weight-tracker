@@ -1,0 +1,130 @@
+@import "Variables";
+
+html, body, #root, .vertical-center{
+  min-height: 100vh;
+}
+
+.vertical-center{
+  display: flex;
+  align-items: center;
+}
+
+body{
+  background-color: $black;
+  color: $white;
+}
+
+.btn.dark-button{
+  font-size: 1.5rem;
+  font-weight: lighter;
+  color: $volt;
+  background-color: $dark-gray;
+  border-radius: 5px;
+  transition: all 200ms ease-out;
+  &:hover{
+    color: $volt;
+    background-color: $light-gray;
+    text-decoration: none;
+  }
+}
+
+.weight:after{
+  content: ' kg';
+  font-size: 2rem;
+  color: $white;
+  font-weight: lighter;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.form-row{
+  position: relative;
+}
+
+.height:after{
+  content: ' cm';
+  font-size: 2rem;
+  color: $white;
+  font-weight: lighter;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+select.form-control{
+  background-color: transparent;
+  border: none;
+  border-radius: 0px;
+  font-size: 2rem;
+  color: $white;
+  font-weight: lighter;
+  border-bottom: 1px solid $pink;
+  &:focus{
+    color: $white;
+    background-color: transparent;
+    border-color: $pink;
+    outline: 0;
+    box-shadow: none;
+  }
+}
+
+form{
+  input[type="text"]{
+    background-color: transparent;
+    border: none;
+    border-radius: 0px;
+    font-size: 2rem;
+    color: $white;
+    font-weight: lighter;
+    border-bottom: 1px solid $pink;
+    &:focus{
+      color: $white;
+      background-color: transparent;
+      border-color: $pink;
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+
+body.LIGHT_THEME{
+  background-color: #efefef;
+  color: $black;
+  select.form-control{
+    background-color: transparent;
+    color: $black;
+    &:focus{
+      color: $black;
+      background-color: transparent;
+      border-color: $pink;
+    }
+  }
+
+  .height:after, .weight:after{
+    color: $black;
+  }
+
+  .btn.dark-button{
+    color: $white;
+    background-color: $royal-blue;
+    &:hover{
+      color: $white;
+      background-color: $baby-blue;
+    }
+  }
+
+  form{
+    input[type="text"]{
+      background-color: transparent;
+      color: $black;
+      border-bottom: 1px solid $pink;
+      &:focus{
+        color: $black;
+        background-color: transparent;
+        border-color: $pink;
+      }
+    }
+  }
+}
