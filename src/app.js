@@ -7,7 +7,7 @@ import Welcome from "./pages/Welcome";
 
 function App(){
     const context = useContext(GlobalContext);
-    const loggedIn = context.loggedIn;
+    const loggedIn = JSON.parse(localStorage.getItem('WEIGHT_TRACKER_DATA')) === null ? context.loggedIn : JSON.parse(localStorage.getItem('WEIGHT_TRACKER_DATA')).loggedIn;
     return(
         <GlobalProvider>
             <Router>
@@ -16,7 +16,7 @@ function App(){
                         return(
                             loggedIn ?
                                 <Redirect to="/home" component={Home} /> :
-                                <Redirect to="/welcome" component={Welcome} />
+                                <Redirect to="/welcome#welcome" component={Welcome} />
                         )
                     }} />
 

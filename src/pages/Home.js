@@ -12,8 +12,6 @@ import SportTracker from "../components/SportTracker/SportTracker";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import WeightFluctuation from "../components/WeightFluctuation/WeightFluctuation";
-
-
 function Home(){
     const {
         initialState,
@@ -64,7 +62,7 @@ function Home(){
         <>
             <Container fluid>
                 <Row>
-                    <Col className="p-0" xl={8} lg={8} md={6} sm={6} xs={12}>
+                    <Col className="p-0" xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div id="calendar-container">
                             <Animated
                                 animationIn="fadeIn"
@@ -82,7 +80,7 @@ function Home(){
                             </Animated>
                         </div>
                     </Col>
-                    <Col className="p-0" xl={4} lg={4} md={6} sm={6} xs={12}>
+                    <Col className="p-0" xl={6} lg={6} md={6} sm={6} xs={12}>
                         <HomeHeader/>
                         <div id="weight-track-container">
                             <Animated

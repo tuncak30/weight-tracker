@@ -1,5 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { HashNavigation } from 'swiper';
+
 import {Form, Col, Row, Button, Container} from 'react-bootstrap';
 import {BrowserRouter as Router, NavLink, Switch} from 'react-router-dom';
 import '../styles/Welcome.scss';
@@ -8,10 +10,11 @@ import {GlobalContext} from "../context/GlobalContext";
 import {Animated} from "react-animated-css";
 import {THEMES, onlyNumbers} from "../StaticData";
 import useTheme from "../hooks/useTheme";
+SwiperCore.use([HashNavigation]);
 
 function Welcome(){
     const {
-        initialState,
+        state,
         login,
         addName,
         addAge,
@@ -21,13 +24,13 @@ function Welcome(){
         addTodaysWeight,
         addTargetWeight,
         changeTheme} = useContext(GlobalContext);
-    const [username, setUsername] = useState(initialState.user.name);
-    const [gender, setGender] = useState(initialState.user.gender);
-    const [theme, setTheme] = useTheme(localStorage.getItem('WEIGHT_TRACKER_THEME') === null ? initialState.theme : localStorage.getItem('WEIGHT_TRACKER_THEME'));
-    const [age, setAge] = useState(initialState.user.age);
-    const [height, setHeight] = useState(initialState.user.height);
-    const [currentWeight, setCurrentWeight] = useState(initialState.user.currentWeight);
-    const [targetWeight, setTargetWeight] = useState(initialState.user.targetWeight);
+    const [username, setUsername] = useState(state.user.name);
+    const [gender, setGender] = useState(state.user.gender);
+    const [theme, setTheme] = useTheme(localStorage.getItem('WEIGHT_TRACKER_THEME') === null ? state.theme : localStorage.getItem('WEIGHT_TRACKER_THEME'));
+    const [age, setAge] = useState(state.user.age);
+    const [height, setHeight] = useState(state.user.height);
+    const [currentWeight, setCurrentWeight] = useState(state.user.currentWeight);
+    const [targetWeight, setTargetWeight] = useState(state.user.targetWeight);
     const [swiper, setSwiper] = useState();
 
     function stepOneSubmitHandler(e){
@@ -57,12 +60,15 @@ function Welcome(){
                 <Row className="justify-content-center">
                     <Col xl={6} lg={6} md={8} sm={10} xs={12}>
                         <Swiper
+                            hashNavigation={{
+                                watchState: true,
+                            }}
                             spaceBetween={50}
                             slidesPerView={1}
                             allowTouchMove={false}
                             onSwiper={(swiper) => setSwiper(swiper)}
                         >
-                            <SwiperSlide>
+                            <SwiperSlide data-hash="welcome">
                                 <Animated
                                     animationIn="fadeIn"
                                     animationOut="fadeOut"
@@ -73,9 +79,16 @@ function Welcome(){
                                 <Animated
                                     animationIn="fadeIn"
                                     animationOut="fadeOut"
-                                    animationInDelay={300}
+                                    animationInDelay={200}
                                     isVisible={true}>
-                                <p className="text-center welcome-texts smaller-texts">Before we start, lets know you a little bit more...</p>
+                                    <p className="text-center welcome-texts smaller-texts">This app will help you lose weight, keep track of what you eat daily, all the exercises that you do and so much more!</p>
+                                </Animated>
+                                <Animated
+                                    animationIn="fadeIn"
+                                    animationOut="fadeOut"
+                                    animationInDelay={400}
+                                    isVisible={true}>
+                                <p className="text-center welcome-texts smaller-texts">But before we start, lets know you a little bit more...</p>
                                 </Animated>
                                 <Animated
                                     animationIn="fadeIn"
@@ -113,7 +126,7 @@ function Welcome(){
                                 </Form>
                                 </Animated>
                             </SwiperSlide>
-                            <SwiperSlide>
+                            <SwiperSlide data-hash="personal-information">
                                 <p className="text-center welcome-texts big-text">Welcome <span id="user-name">{username.charAt(0).toUpperCase() + username.slice(1)}</span>!</p>
                                 <p className="text-center welcome-texts smaller-texts">In order to do our magic, we need a little bit more information about you</p>
                                 <Form onSubmit={stepTwoSubmitHandler}>
@@ -199,7 +212,7 @@ function Welcome(){
 
                                 </Form>
                             </SwiperSlide>
-                            <SwiperSlide>
+                            <SwiperSlide data-hash="theme-selection">
                                 <p className="text-center welcome-texts big-text">Okay then! One last step...</p>
                                 <p className="text-center welcome-texts smaller-texts">Please select your prefered theme, or you can select <span>auto</span> to leave it to us!</p>
                                 <Row className="mt-4">
