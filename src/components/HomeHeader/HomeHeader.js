@@ -7,8 +7,8 @@ export default function HomeHeader(){
     const {initialState} = useContext(GlobalContext);
 
     return(
-        <header id="home-header">
-            Hello <span>{initialState.user.name}</span>
+        <header id="home-header" className="clearfix">
+            <span id="menu-trigger">{initialState.user.name}</span>
         </header>
     )
 }

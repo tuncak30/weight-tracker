@@ -25,6 +25,22 @@ function Home(){
     const date = new Date();
     const myEventsList = alterWeightArray(state.kgs);
     const [theme, setTheme] = useTheme(localStorage.getItem('WEIGHT_TRACKER_THEME') === null ? state.theme : localStorage.getItem('WEIGHT_TRACKER_THEME'));
+    const [todaysWeightValidated, setTodaysWeightValidated] = useState(false);
+    const todaysWeightFormSubmit = (event) => {
+        const todaysWeightForm = event.currentTarget;
+        if (todaysWeightForm.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        if (todaysWeightForm.checkValidity() === true) {
+            event.preventDefault();
+            setTodaysWeight('');
+            addTodaysWeight(todaysWeight);
+            addCurrentWeight(todaysWeight);
+        }
+        setTodaysWeightValidated(true);
+    }
 
     useEffect(() => {
         fetch('https://trackapi.nutritionix.com/v2/search/instant?query=apple', {
@@ -55,7 +71,7 @@ function Home(){
                     array[i+1] = {...array[i+1], fluctuation: 'up'}
                 }
                 array[i+1] = {...array[i+1], difference: fluctuation}
-                array[i+1] = {...array[i+1], title: array[i+1].title + sign + fluctuation +' kg)'}
+                array[i+1] = {...array[i+1], title: array[i+1].title + '(' + sign + fluctuation +' kg)'}
             }
         }
         return array;
@@ -81,7 +97,7 @@ function Home(){
         <>
             <Container fluid>
                 <Row>
-                    <Col className="p-0" xl={6} lg={6} md={6} sm={6} xs={12}>
+                    <Col className="p-0 position-fixed" xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div id="calendar-container">
                             <Animated
                                 animationIn="fadeIn"
@@ -99,7 +115,7 @@ function Home(){
                             </Animated>
                         </div>
                     </Col>
-                    <Col className="p-0" xl={6} lg={6} md={6} sm={6} xs={12}>
+                    <Col className="p-0 offset-6" xl={6} lg={6} md={6} sm={6} xs={12}>
                         <HomeHeader/>
                         <div id="weight-track-container">
                             <Animated
@@ -109,21 +125,21 @@ function Home(){
                                 isVisible={true}>
 
                                 <p
-                                    className="welcome-texts smaller-texts">
+                                    className="welcome-texts smaller-texts-subpages">
                                     Today is <span id="current-date">{date.getDate() + " " + MONTHS[date.getMonth() + 1] + " " + date.getFullYear()}</span>
                                     {
                                         isNaN(myEventsList[myEventsList.length - 1].difference) ? null :
                                             myEventsList[myEventsList.length - 1].difference < 0 ?
-                                            <p>You lost <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! This is awesome!</p> :
-                                            <p>You gained <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! Don't worry, you'll do better today!</p>
+                                            <div>You lost <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! This is awesome!</div> :
+                                            <div>You gained <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! Don't worry, you'll do better today!</div>
                                     }
 
                                 </p>
                                 {
                                     (state.user.currentWeight - state.user.targetWeight <=0 ) ?
-                                        <p className="welcome-texts smaller-texts">Congratulations! You did it! You have reached your target weight!</p>
+                                        <p className="welcome-texts smaller-texts-subpages">Congratulations! You did it! You have reached your target weight!</p>
                                         :
-                                        <p className="welcome-texts smaller-texts">You are <b id="weight-difference">{Math.round((state.user.currentWeight - state.user.targetWeight) * 10 ) / 10} kgs</b>  away from your goal! Get on that scale right now and kick its ass!</p>
+                                        <p className="welcome-texts smaller-texts-subpages">You are <b id="weight-difference">{Math.round((state.user.currentWeight - state.user.targetWeight) * 10 ) / 10} kgs</b>  away from your goal! Get on that scale right now and kick its ass!</p>
                                 }
                             </Animated>
                             <Animated
@@ -132,43 +148,40 @@ function Home(){
                                 animationOut="fadeOut"
                                 animationInDelay={400}
                                 isVisible={true}>
-                                <Form className="clearfix">
-                                    <Form.Group>
-                                        <Form.Row>
-                                            <Col className="weight">
-                                                <Form.Control
-                                                    className="form-control"
-                                                    placeholder="Today's weight..."
-                                                    maxLength="5"
-                                                    type="text" value={todaysWeight}
-                                                    onChange={(e) => {
-                                                        if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
-                                                            setTodaysWeight(e.target.value);
-                                                        }
-                                                    }}/>
-                                            </Col>
-                                        </Form.Row>
-                                    </Form.Group>
-
-                                    <Form.Group>
-                                        <Form.Row className="float-right">
-                                            <Col>
-                                                <Button
-                                                    variant={"link"}
-                                                    onClick={() => {
-                                                        setTodaysWeight('');
-                                                        addTodaysWeight(todaysWeight);
-                                                        addCurrentWeight(todaysWeight);
-                                                    }}
-                                                    className="dark-button">Add Weight
-                                                </Button>
-                                            </Col>
-                                        </Form.Row>
-                                    </Form.Group>
+                                <Form
+                                    noValidate
+                                    validated={todaysWeightValidated}
+                                    onSubmit={todaysWeightFormSubmit}>
+                                    <Form.Row>
+                                        <Form.Group as={Col}>
+                                            <Form.Control
+                                                size="sm"
+                                                required
+                                                placeholder="Today's weight..."
+                                                maxLength="5"
+                                                type="text"
+                                                defaultValue={todaysWeight}
+                                                onChange={(e) => {
+                                                    if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
+                                                        setTodaysWeight(e.target.value);
+                                                    }
+                                                }}/>
+                                        </Form.Group>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <Form.Group as={Col}>
+                                            <Button
+                                                variant={"link"}
+                                                type="submit"
+                                                size="sm"
+                                                className="dark-button float-right">Add Weight
+                                            </Button>
+                                        </Form.Group>
+                                    </Form.Row>
                                 </Form>
                             </Animated>
                             <Animated
-                                className="mt-4"
+                                className="mt-2"
                                 animationIn="fadeIn"
                                 animationOut="fadeOut"
                                 animationInDelay={600}
@@ -176,7 +189,7 @@ function Home(){
                                 <WeightFluctuation/>
                             </Animated>
                             <Animated
-                                className="mt-4"
+                                className="mt-2"
                                 animationIn="fadeIn"
                                 animationOut="fadeOut"
                                 animationInDelay={800}
@@ -184,7 +197,7 @@ function Home(){
                                 <CalorieCalculator/>
                             </Animated>
                             <Animated
-                                className="mt-4"
+                                className="mt-2"
                                 animationIn="fadeIn"
                                 animationOut="fadeOut"
                                 animationInDelay={1000}

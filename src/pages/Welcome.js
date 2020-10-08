@@ -143,7 +143,7 @@ function Welcome(){
                                                 <Button
                                                     variant={"link"}
                                                     type="submit"
-                                                    className="dark-button mt-3 float-right">Next (1/3)
+                                                    className="dark-button mt-3 float-right ">Next (1/3)
                                                 </Button>
                                             </Form.Group>
                                         </Form.Row>

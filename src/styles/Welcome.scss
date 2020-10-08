@@ -28,6 +28,12 @@ body.LIGHT_THEME, body.AUTO{
   line-height: 1.3;
 }
 
+.smaller-texts-subpages{
+  font-size: 1.2rem;
+  margin-bottom: .1rem;
+  line-height: 1.2;
+}
+
 .theme-selector{
   cursor: pointer;
   transition: all 200ms ease-out;

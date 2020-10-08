@@ -26,6 +26,9 @@ body{
     background-color: $light-gray;
     text-decoration: none;
   }
+  &.btn-sm{
+    font-size: 1rem;
+  }
 }
 
 .form-row{
@@ -96,6 +99,9 @@ form{
       border-color: $pink;
       outline: 0;
       box-shadow: none;
+    }
+    &.form-control-sm{
+      font-size: 1.5rem;
     }
   }
 }

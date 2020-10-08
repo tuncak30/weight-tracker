@@ -4,8 +4,11 @@
   background-color: $dark-gray;
   padding: 10px 30px;
   color: $white;
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: lighter;
+  #menu-trigger{
+    float: right;
+  }
 }
 
 #weight-track-container{

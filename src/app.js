@@ -3,6 +3,7 @@ import {GlobalContext, GlobalProvider} from "./context/GlobalContext";
 import {Switch, BrowserRouter as Router, Redirect, Route} from 'react-router-dom';
 import Home from "./pages/Home";
 import Welcome from "./pages/Welcome";
+import ScreenResolutionWarning from "./components/ScreenResolutionWarning/ScreenResolutionWarning";
 
 function App(){
     const context = useContext(GlobalContext);
@@ -23,6 +24,7 @@ function App(){
                     <Route exact path="/welcome" component={Welcome}></Route>
                 </Switch>
             </Router>
+            <ScreenResolutionWarning />
         </GlobalProvider>
     )
 }

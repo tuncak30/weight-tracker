@@ -1,0 +1,35 @@
+@import "../../styles/Variables.scss";
+
+#screen-resolution-glass{
+  display: block;
+  z-index: 9999;
+  background-color: $black;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  #screen-resolution-center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%) translateY(-50%);
+    font-weight: lighter;
+    font-size: 2rem;
+    line-height: 1.2;
+    text-align: center;
+    max-width: 768px;
+  }
+}
+
+body.LIGHT_THEME{
+  #screen-resolution-glass{
+    display: block;
+    z-index: 9999;
+    background-color: $white;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+}
