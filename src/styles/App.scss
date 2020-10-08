@@ -106,6 +106,22 @@ form{
   }
 }
 
+#spinner-glass{
+  z-index: 9999;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(255,255,255,0.4);
+  #spinner-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+}
+
 body.DARK_THEME{
   .modal-content{
     background-color: #444;
@@ -117,6 +133,9 @@ body.DARK_THEME{
   }
 }
 body.LIGHT_THEME{
+  #spinner-glass{
+    background-color: rgba(255,255,255,0.7);
+  }
   background-color: #efefef;
   color: $black;
   select.form-control{

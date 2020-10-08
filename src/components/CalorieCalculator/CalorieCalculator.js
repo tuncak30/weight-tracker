@@ -1,13 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Form, Modal, Row, Container, Table} from "react-bootstrap";
-import {Animated} from "react-animated-css";
+import ReactDOM from 'react-dom';
 import './CalorieCalculator.scss';
 import SearchResults from "../SearchResults/SearchResults";
+import useSpinner from "../../hooks/useSpinner";
 
 export default function CalorieCalculator(props){
     const [show, setShow] = useState(false);
     const [query, setQuery] = useState('');
-    const handleClose = () => setShow(false);
+    const [spinner, showSpinner, hideSpinner] = useSpinner();
+
+    const handleClose = () => {
+        setShow(false);
+        setSearchResults([]);
+    }
     const handleShow = () => setShow(true);
     const [queryFormValidated, setQueryFormValidated] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
@@ -24,6 +30,7 @@ export default function CalorieCalculator(props){
             setQuery(query);
 
             if(query.length >= 2){
+                showSpinner();
                 let opts = {
                     query: query
                 }
@@ -38,8 +45,9 @@ export default function CalorieCalculator(props){
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
                         if(data.foods){
+                            hideSpinner();
+                            setQuery('');
                             setSearchResults(data.foods)
                         }
                     })
@@ -60,7 +68,10 @@ export default function CalorieCalculator(props){
     }
 
     return(
+
         <div className="custom-section-containers clearfix">
+
+            {ReactDOM.createPortal(spinner, document.getElementById('portal'))}
             <div className="custom-section-headers">Calorie Calculator</div>
             <Modal
                 show={show}
@@ -99,23 +110,27 @@ export default function CalorieCalculator(props){
                             </Form.Group>
                         </Form.Row>
                     </Form>
-                    <Table striped bordered hover size="sm">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Qty</th>
-                            <th>Unit</th>
-                            <th>Food</th>
-                            <th>Calories</th>
-                            <th>Weight</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {searchResults.map((item, i) =>
-                                <SearchResults key={item.food_name} data={item}></SearchResults>
-                            )}
-                        </tbody>
-                    </Table>
+                    {
+                        searchResults.length > 0 ?
+                            <Table striped bordered hover size="sm">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Qty</th>
+                                    <th>Unit</th>
+                                    <th>Food</th>
+                                    <th>Calories</th>
+                                    <th>Weight</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {searchResults.map((item, i) =>
+                                    <SearchResults key={item.food_name} data={item}></SearchResults>
+                                )}
+                                </tbody>
+                            </Table>
+                            : null
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
