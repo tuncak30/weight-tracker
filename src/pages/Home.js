@@ -11,6 +11,7 @@ import CalorieCalculator from "../components/CalorieCalculator/CalorieCalculator
 import SportTracker from "../components/SportTracker/SportTracker";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import useModal from "../hooks/useModal";
 import WeightFluctuation from "../components/WeightFluctuation/WeightFluctuation";
 function Home(){
     const {
@@ -41,20 +42,6 @@ function Home(){
         }
         setTodaysWeightValidated(true);
     }
-
-    useEffect(() => {
-        fetch('https://trackapi.nutritionix.com/v2/search/instant?query=apple', {
-            method: 'GET',
-            headers: {
-                'x-app-id' : '584f030a',
-                'x-app-key': '58d2f134b9af844489da96d2a5e14202'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-    }, [])
 
     function alterWeightArray(array){
         for(let i=0; i<array.length; i++){
@@ -130,8 +117,8 @@ function Home(){
                                     {
                                         isNaN(myEventsList[myEventsList.length - 1].difference) ? null :
                                             myEventsList[myEventsList.length - 1].difference < 0 ?
-                                            <div>You lost <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! This is awesome!</div> :
-                                            <div>You gained <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! Don't worry, you'll do better today!</div>
+                                            <span>You lost <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! This is awesome!</span> :
+                                            <span>You gained <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! Don't worry, you'll do better today!</span>
                                     }
 
                                 </p>

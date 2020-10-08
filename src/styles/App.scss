@@ -106,7 +106,16 @@ form{
   }
 }
 
-
+body.DARK_THEME{
+  .modal-content{
+    background-color: #444;
+    .close{
+      color: #fff;
+      text-shadow: none;
+      opacity: 1;
+    }
+  }
+}
 body.LIGHT_THEME{
   background-color: #efefef;
   color: $black;
