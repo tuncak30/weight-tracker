@@ -28,28 +28,40 @@ body{
   }
 }
 
-.weight:after{
-  content: ' kg';
-  font-size: 2rem;
-  color: $white;
-  font-weight: lighter;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
 .form-row{
   position: relative;
 }
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+.btn:focus, .btn:active {
+  text-decoration: none;
+}
+.btn{
+  user-select: none;
+}
+.form-control.is-invalid:focus, .was-validated .form-control:invalid:focus{
+  box-shadow: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.form-control.is-valid:focus, .was-validated .form-control:valid:focus{
+  box-shadow: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
 
-.height:after{
-  content: ' cm';
-  font-size: 2rem;
-  color: $white;
+.error-text{
+  color: $pink;
+  margin: 2px 0px -15px 0px;
   font-weight: lighter;
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  &::before {
+    display: inline;
+    content: "⚠ ";
+  }
 }
 
 select.form-control{

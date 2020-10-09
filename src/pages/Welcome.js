@@ -1,8 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { HashNavigation } from 'swiper';
-
-import {Form, Col, Row, Button, Container} from 'react-bootstrap';
+import {Form, Col, Row, Button, Container, InputGroup} from 'react-bootstrap';
 import {BrowserRouter as Router, NavLink, Switch} from 'react-router-dom';
 import '../styles/Welcome.scss';
 import 'swiper/swiper.scss';
@@ -31,20 +30,40 @@ function Welcome(){
     const [height, setHeight] = useState(state.user.height);
     const [currentWeight, setCurrentWeight] = useState(state.user.currentWeight);
     const [targetWeight, setTargetWeight] = useState(state.user.targetWeight);
+    const [welcomeFormValidated, setWelcomeFormValidated] = useState(false);
+    const [personalInformationFormValidated, setPersonalInformationFormValidated] = useState(false);
     const [swiper, setSwiper] = useState();
 
-    function stepOneSubmitHandler(e){
-        e.preventDefault();
-        swiper.slideTo(1);
-    }
+    const stepOneSubmitHandler = (event) => {
+        const welcomeForm = event.currentTarget;
+        if (welcomeForm.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
 
-    function stepTwoSubmitHandler(e){
-        e.preventDefault();
-        addTodaysWeight(currentWeight);
-        swiper.slideTo(2);
+        if (welcomeForm.checkValidity() === true) {
+            event.preventDefault();
+            swiper.slideTo(1);
+        }
+        setWelcomeFormValidated(true);
+    }
+    const stepTwoSubmitHandler = (event) => {
+        const personalInformationForm = event.currentTarget;
+        if (personalInformationForm.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        if (personalInformationForm.checkValidity() === true) {
+            event.preventDefault();
+            addTodaysWeight(currentWeight);
+            swiper.slideTo(2);
+        }
+        setPersonalInformationFormValidated(true);
     }
 
     function stepThreeSubmitHandler(e){
+        localStorage.setItem('WEIGHT_TRACKER_THEME', theme);
         login(true);
     }
 
@@ -102,114 +121,133 @@ function Welcome(){
                                     animationOut="fadeOut"
                                     animationInDelay={1000}
                                     isVisible={true}>
-                                <Form onSubmit={stepOneSubmitHandler}>
-                                    <Form.Group>
-                                        <Form.Control
-                                            name="username"
-                                            className="form-control"
-                                            placeholder="Your Name..."
-                                            type="text" value={username}
-                                            onChange={(e) => {
-                                                addName(e.target.value);
-                                                setUsername(e.target.value)
-                                            }}/>
-                                    </Form.Group>
-                                    <Row>
-                                        <Col>
-                                            <Button
-                                                type="submit"
-                                                variant={"link"}
-                                                className="dark-button mt-3 float-right">Next (1/3)
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Form>
+                                    <Form
+                                        noValidate
+                                        validated={welcomeFormValidated}
+                                        onSubmit={stepOneSubmitHandler}>
+                                        <Form.Row>
+                                            <Form.Group as={Col}>
+                                                <Form.Control
+                                                    required
+                                                    placeholder="Name..."
+                                                    type="text"
+                                                    defaultValue={username}
+                                                    onChange={(e) => {
+                                                        addName(e.target.value);
+                                                        setUsername(e.target.value)
+                                                    }}/>
+                                            </Form.Group>
+                                        </Form.Row>
+                                        <Form.Row>
+                                            <Form.Group as={Col}>
+                                                <Button
+                                                    variant={"link"}
+                                                    type="submit"
+                                                    className="dark-button mt-3 float-right">Next (1/3)
+                                                </Button>
+                                            </Form.Group>
+                                        </Form.Row>
+                                    </Form>
                                 </Animated>
                             </SwiperSlide>
                             <SwiperSlide data-hash="personal-information">
                                 <p className="text-center welcome-texts big-text">Welcome <span id="user-name">{username.charAt(0).toUpperCase() + username.slice(1)}</span>!</p>
                                 <p className="text-center welcome-texts smaller-texts">In order to do our magic, we need a little bit more information about you</p>
-                                <Form onSubmit={stepTwoSubmitHandler}>
-                                    <Form.Group>
-                                        <Form.Row>
+                                <Form
+                                    noValidate
+                                    validated={personalInformationFormValidated}
+                                    onSubmit={stepTwoSubmitHandler}>
+                                    <Form.Row>
+                                        <Form.Group as={Col}>
                                             <Form.Control
-                                                className="form-control"
-                                                placeholder="Your Age..."
+                                                required
+                                                placeholder="Age..."
                                                 maxLength="3"
-                                                type="text" value={age}
+                                                type="text"
+                                                defaultValue={age}
                                                 onChange={(e) => {
                                                     if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
                                                         addAge(e.target.value);
                                                         setAge(e.target.value);
                                                     }
                                                 }}/>
-                                        </Form.Row>
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Control onChange={(e) => {
-                                            addGender(e.target.value);
-                                            setGender(e.target.value);
-                                        }} as="select" value={gender}>
-                                            <option value="default">Your Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Row className="height">
+                                        </Form.Group>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <Form.Group as={Col}>
+                                            <Form.Control
+                                                name="gender"
+                                                required
+                                                onChange={(e) => {
+                                                addGender(e.target.value);
+                                                setGender(e.target.value);
+                                            }} as="select" defaultValue={gender}>
+                                                <option value="">Your Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <Form.Group as={Col}>
                                             <Form.Control
                                                 className="form-control"
-                                                placeholder="Your Height..."
-                                                type="text" value={height}
+                                                required
+                                                placeholder="(cm) Height..."
+                                                type="text"
+                                                defaultValue={height}
                                                 onChange={(e) => {
                                                     if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
                                                         addHeight(e.target.value);
                                                         setHeight(e.target.value);
                                                     }
                                                 }}/>
-                                        </Form.Row>
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Row>
-                                            <Col className="weight">
-                                                <Form.Control
-                                                    className="form-control weight"
-                                                    placeholder="Current Weight..."
-                                                    maxLength="5"
-                                                    type="text" value={currentWeight}
-                                                    onChange={(e) => {
-                                                        if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
-                                                            addCurrentWeight(e.target.value);
-                                                            setCurrentWeight(e.target.value);
-                                                        }
-                                                    }}/>
-                                            </Col>
+                                        </Form.Group>
+                                    </Form.Row>
 
-                                            <Col className="weight">
-                                                <Form.Control
-                                                    className="form-control"
-                                                    placeholder="Target Weight..."
-                                                    maxLength="5"
-                                                    type="text" value={targetWeight}
-                                                    onChange={(e) => {
-                                                        if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
-                                                            addTargetWeight(e.target.value);
-                                                            setTargetWeight(e.target.value);
-                                                        }
-                                                    }}/>
-                                            </Col>
-                                        </Form.Row>
-                                    </Form.Group>
-                                    <Row>
-                                        <Col>
+                                    <Form.Row>
+                                        <Form.Group as={Col} lg={6} xl={6} sm={6} xs={6}>
+                                            <Form.Control
+                                                className="form-control"
+                                                placeholder="(kg) Current Weight..."
+                                                maxLength="5"
+                                                required
+                                                type="text"
+                                                defaultValue={currentWeight}
+                                                onChange={(e) => {
+                                                    if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
+                                                        addCurrentWeight(e.target.value);
+                                                        setCurrentWeight(e.target.value);
+                                                    }
+                                                }}/>
+                                        </Form.Group>
+
+                                        <Form.Group as={Col} lg={6} xl={6} sm={6} xs={6}>
+                                            <Form.Control
+                                                className="form-control"
+                                                placeholder="(kg) Target Weight..."
+                                                maxLength="5"
+                                                required
+                                                type="text"
+                                                defaultValue={targetWeight}
+                                                onChange={(e) => {
+                                                    if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
+                                                        addTargetWeight(e.target.value);
+                                                        setTargetWeight(e.target.value);
+                                                    }
+                                                }}/>
+                                        </Form.Group>
+                                    </Form.Row>
+
+                                    <Form.Row>
+                                        <Form.Group as={Col} lg={12}>
                                             <Button
+                                                type="submit"
                                                 variant={"link"}
-                                                onClick={stepTwoSubmitHandler}
                                                 className="dark-button mt-3 float-right">Next (2/3)
                                             </Button>
-                                        </Col>
-                                    </Row>
-
+                                        </Form.Group>
+                                    </Form.Row>
                                 </Form>
                             </SwiperSlide>
                             <SwiperSlide data-hash="theme-selection">

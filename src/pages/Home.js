@@ -24,19 +24,38 @@ function Home(){
     const localizer = momentLocalizer(moment)
     const date = new Date();
     const myEventsList = alterWeightArray(state.kgs);
-
     const [theme, setTheme] = useTheme(localStorage.getItem('WEIGHT_TRACKER_THEME') === null ? state.theme : localStorage.getItem('WEIGHT_TRACKER_THEME'));
+
+    useEffect(() => {
+        fetch('https://trackapi.nutritionix.com/v2/search/instant?query=apple', {
+            method: 'GET',
+            headers: {
+                'x-app-id' : '584f030a',
+                'x-app-key': '58d2f134b9af844489da96d2a5e14202'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+    }, [])
 
     function alterWeightArray(array){
         for(let i=0; i<array.length; i++){
             if(array[i+1]){
-                let fluctuation = parseFloat(array[i+1].title.split(" ")[0]) - parseFloat(array[i].title.split(" ")[0]);
+                let fluctuation = (Math.round(parseFloat(array[i+1].title.split(" ")[0]) - parseFloat(array[i].title.split(" ")[0])) * 10) / 10;
+                let sign = '';
+                if(fluctuation > 0){
+                    sign = '+';
+                }
                 if(parseFloat(array[i+1].title.split(" ")[0]) <= parseFloat(array[i].title.split(" ")[0])){
                     array[i+1] = {...array[i+1], fluctuation: 'down'}
                 }
                 else{
                     array[i+1] = {...array[i+1], fluctuation: 'up'}
                 }
+                array[i+1] = {...array[i+1], difference: fluctuation}
+                array[i+1] = {...array[i+1], title: array[i+1].title + sign + fluctuation +' kg)'}
             }
         }
         return array;
@@ -89,7 +108,17 @@ function Home(){
                                 animationInDelay={100}
                                 isVisible={true}>
 
-                                <p className="welcome-texts smaller-texts">Today is <span id="current-date">{date.getDate() + " " + MONTHS[date.getMonth() + 1] + " " + date.getFullYear()}</span></p>
+                                <p
+                                    className="welcome-texts smaller-texts">
+                                    Today is <span id="current-date">{date.getDate() + " " + MONTHS[date.getMonth() + 1] + " " + date.getFullYear()}</span>
+                                    {
+                                        isNaN(myEventsList[myEventsList.length - 1].difference) ? null :
+                                            myEventsList[myEventsList.length - 1].difference < 0 ?
+                                            <p>You lost <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! This is awesome!</p> :
+                                            <p>You gained <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg yesterday! Don't worry, you'll do better today!</p>
+                                    }
+
+                                </p>
                                 {
                                     (state.user.currentWeight - state.user.targetWeight <=0 ) ?
                                         <p className="welcome-texts smaller-texts">Congratulations! You did it! You have reached your target weight!</p>
