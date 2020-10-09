@@ -18,7 +18,9 @@
 .fc a{
   font-weight: 300;
 }
-
+.fc .fc-highlight{
+  border:2px solid $pink;
+}
 .fc .fc-toolbar.fc-header-toolbar{
   margin-bottom: 0px !important;
   padding: 3px 0px 2px 0px;

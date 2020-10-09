@@ -5,3 +5,34 @@
   top: 7px;
   right: 5px;
 }
+
+#food-query-input{
+  padding-right: 90px;
+}
+
+#divider{
+  padding: 10px 0px;
+  width: 100%;
+  position: relative;
+  margin: 10px 0px;
+  text-decoration: line-through;
+  &:after{
+    content: '';
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1px;
+    background-color: $light-gray;
+  }
+  span{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    color: $light-gray;
+    background-color: white;
+    z-index: 9;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}

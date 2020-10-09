@@ -8,6 +8,8 @@ import useSpinner from "../../hooks/useSpinner";
 export default function CalorieCalculator(props){
     const [show, setShow] = useState(false);
     const [query, setQuery] = useState('');
+    const [customFoodName, setCustomFoodName] = useState('');
+    const [customFoodCalorie, setCustomFoodCalorie] = useState('');
     const [spinner, showSpinner, hideSpinner] = useSpinner();
 
     const handleClose = () => {
@@ -16,7 +18,22 @@ export default function CalorieCalculator(props){
     }
     const handleShow = () => setShow(true);
     const [queryFormValidated, setQueryFormValidated] = useState(false);
+    const [customQueryFormValidated, setCustomQueryFormValidated] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
+
+    const customQueryFormSubmit = (event) => {
+
+        const customQueryForm = event.currentTarget;
+        if (customQueryForm.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        if (customQueryForm.checkValidity() === true) {
+            event.preventDefault();
+        }
+
+        setCustomQueryFormValidated(true);
+    }
 
     const queryFormSubmit = (event) => {
         const queryForm = event.currentTarget;
@@ -92,8 +109,9 @@ export default function CalorieCalculator(props){
                             <Form.Group as={Col}>
                                 <Form.Control
                                     size="sm"
+                                    id="food-query-input"
                                     required
-                                    placeholder="Enter food name..."
+                                    placeholder="Enter query..."
                                     type="text"
                                     defaultValue={query}
                                     onChange={(e) => {
@@ -129,7 +147,50 @@ export default function CalorieCalculator(props){
                                 )}
                                 </tbody>
                             </Table>
-                            : null
+                            :
+                            <>
+                                <p className="welcome-texts smaller-texts-subpages">Enter a query like " 1 cup mashed potatoes and 2 tbsp gravy " to see how it works. We support tens of thousands of foods, including international dishes.</p>
+                                    <div id="divider"><span>OR</span></div>
+                                <p className="welcome-texts smaller-texts-subpages">You can enter a custom entry</p>
+                                <Form
+                                    noValidate
+                                    validated={customQueryFormValidated}
+                                    onSubmit={customQueryFormSubmit}>
+                                    <Form.Row>
+                                        <Col>
+                                            <Form.Control
+                                                size="sm"
+                                                required
+                                                placeholder="Food name..."
+                                                type="text"
+                                                defaultValue={customFoodName}
+                                                onChange={(e) => {
+                                                    setCustomFoodName(e.target.value);
+                                                }}/>
+                                        </Col>
+                                        <Col>
+                                            <Form.Control
+                                                size="sm"
+                                                required
+                                                placeholder="Food Calorie..."
+                                                type="text"
+                                                defaultValue={customFoodCalorie}
+                                                onChange={(e) => {
+                                                    setCustomFoodCalorie(e.target.value);
+                                                }}/>
+                                        </Col>
+                                        <Col>
+                                            <Button
+                                                variant={"link"}
+                                                type="submit"
+                                                size="sm"
+                                                className="dark-button">
+                                                Add Food
+                                            </Button>
+                                        </Col>
+                                    </Form.Row>
+                                </Form>
+                            </>
                     }
                 </Modal.Body>
                 <Modal.Footer>
@@ -142,6 +203,7 @@ export default function CalorieCalculator(props){
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <p className="welcome-texts smaller-texts-subpages text-center pt-1 pb-1 mt-3 mb-3">You haven't enter anything yet</p>
             <Button
                 variant={"link"}
                 size="sm"

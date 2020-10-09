@@ -11,7 +11,7 @@ let initialState = JSON.parse(localStorage.getItem('WEIGHT_TRACKER_DATA')) === n
         currentWeight: '',
         targetWeight: ''
     },
-    theme: 'DARK_THEME',
+    theme: 'LIGHT_THEME',
     kgs: []
 } : JSON.parse(localStorage.getItem('WEIGHT_TRACKER_DATA'));
 
@@ -85,8 +85,8 @@ export const GlobalProvider = ({ children }) => {
             type: 'ADD_TODAYS_WEIGHT',
             payload: {
                 title: todays_weight + " kg",
-                start: new Date(),
-                end: new Date()
+                start: new Date().getTime(),
+                end: new Date().getTime()
             }
         })
     }
