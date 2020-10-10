@@ -102,7 +102,7 @@ function Home(){
 
     return(
         <>
-            <Container fluid>
+            <Container fluid className="d-none d-md-block">
                 <Row>
                     <Col className="p-0 position-fixed over-right-col" xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div id="calendar-container">
