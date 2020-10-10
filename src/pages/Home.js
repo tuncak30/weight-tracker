@@ -6,7 +6,6 @@ import HomeHeader from "../components/HomeHeader/HomeHeader";
 import {MONTHS, onlyNumbers} from "../StaticData";
 import {Animated} from "react-animated-css";
 import '../styles/Home.scss';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CalorieCalculator from "../components/CalorieCalculator/CalorieCalculator";
 import SportTracker from "../components/SportTracker/SportTracker";
 import useModal from "../hooks/useModal";
