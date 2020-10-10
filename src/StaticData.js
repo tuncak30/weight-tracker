@@ -5,6 +5,7 @@ export const THEMES = {
     "AUTO": "AUTO",
 }
 export const onlyNumbers = /^[0-9.]*$/;
+
 export const MONTHS = {
     "1" : "Jan",
     "2" : "Feb",

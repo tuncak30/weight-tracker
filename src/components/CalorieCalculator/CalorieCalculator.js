@@ -47,6 +47,18 @@ export default function CalorieCalculator(props){
         }
         if (customQueryForm.checkValidity() === true) {
             event.preventDefault();
+            addMeal({
+                customFood: true,
+                food_name: customFoodName,
+                nf_calories: parseFloat(customFoodCalorie)
+            });
+            setSearchResults([]);
+            setShowToast(true);
+            setShow(false);
+            setToastVariant('toast-success');
+            setToastBody('Custom meal successfully added!');
+            setCustomFoodName('');
+            setCustomFoodCalorie('');
         }
 
         setCustomQueryFormValidated(true);
@@ -113,6 +125,7 @@ export default function CalorieCalculator(props){
 
     function setSelectedFoods(meal){
         addMeal(meal);
+        setSearchResults([]);
         setShowToast(true);
         setShow(false);
         setToastVariant('toast-success');
@@ -267,14 +280,23 @@ export default function CalorieCalculator(props){
                                 <tbody>
                                 {
                                     consumedMeals.map((item, i) =>
-                                        <tr>
-                                            <td className="img-container"><img className="img-fluid" src={item.meal.photo.thumb} alt={item.meal.food_name} /></td>
-                                            <td>{item.meal.serving_qty}</td>
-                                            <td>{item.meal.serving_unit}</td>
-                                            <td>{item.meal.food_name}</td>
-                                            <td>{item.meal.nf_calories}</td>
-                                            <td>{item.meal.serving_weight_grams}</td>
-                                        </tr>
+                                        item.meal.customFood ?
+                                            <tr>
+                                                <td className="img-container">N/A</td>
+                                                <td>N/A</td>
+                                                <td>N/A</td>
+                                                <td>{item.meal.food_name}</td>
+                                                <td>{item.meal.nf_calories}</td>
+                                                <td>N/A</td>
+                                            </tr> :
+                                            <tr key={i}>
+                                                <td className="img-container"><img className="img-fluid" src={item.meal.photo.thumb} alt={item.meal.food_name} /></td>
+                                                <td>{item.meal.serving_qty}</td>
+                                                <td>{item.meal.serving_unit}</td>
+                                                <td>{item.meal.food_name}</td>
+                                                <td>{item.meal.nf_calories}</td>
+                                                <td>{item.meal.serving_weight_grams}</td>
+                                            </tr>
                                     )
                                 }
                                 </tbody>
