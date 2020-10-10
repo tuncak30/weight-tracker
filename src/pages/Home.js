@@ -63,7 +63,9 @@ function Home(){
     function alterWeightArray(array){
         for(let i=0; i<array.length; i++){
             if(array[i+1]){
-                let fluctuation = (Math.round(parseFloat(array[i+1].title.split(" ")[0]) - parseFloat(array[i].title.split(" ")[0])) * 100) / 100;
+                let last = parseFloat(array[i+1].title.split(" ")[0]);
+                let prev = parseFloat(array[i].title.split(" ")[0]);
+                let fluctuation = Number.isInteger(last - prev) ? (Math.round(last - prev) * 100) / 100 : last - prev;
                 let sign = '';
                 if(fluctuation > 0){
                     sign = '+';
@@ -147,11 +149,11 @@ function Home(){
                                             </p>
                                             {
                                                 isNaN(myEventsList[myEventsList.length - 1].difference) ? null :
-                                                    myEventsList[myEventsList.length - 1].difference == 0 ?
+                                                    myEventsList[myEventsList.length - 1].difference === 0 ?
                                                         <p className="welcome-texts smaller-texts-subpages">You maintained your weight! That is still nice, at least you didn't gain weight, right? Hehe :)</p> :
                                                         myEventsList[myEventsList.length - 1].difference < 0 ?
-                                                        <p className="welcome-texts smaller-texts-subpages">You lost <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg! This is awesome!</p> :
-                                                        <p className="welcome-texts smaller-texts-subpages">You gained <b>{Math.abs(myEventsList[myEventsList.length - 1].difference)}</b> kg! Don't worry, you'll do better!</p>
+                                                        <p className="welcome-texts smaller-texts-subpages">You lost <b>{Math.round(Math.abs(myEventsList[myEventsList.length - 1].difference) * 100) / 100}</b> kg! This is awesome!</p> :
+                                                        <p className="welcome-texts smaller-texts-subpages">You gained <b>{Math.round(Math.abs(myEventsList[myEventsList.length - 1].difference) * 100) / 100}</b> kg! Don't worry, you'll do better!</p>
                                             }
 
                                             {

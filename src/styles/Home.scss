@@ -18,6 +18,13 @@
 .fc a{
   font-weight: 300;
 }
+.fc-daygrid-day{
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  &:hover{
+    background-color: #efefef;
+  }
+}
 .fc .fc-highlight{
   border:2px solid $pink;
 }
