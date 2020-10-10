@@ -10,6 +10,22 @@
   padding-right: 90px;
 }
 
+.add-buttons{
+  background-color: $green;
+}
+
+body.DARK_THEME{
+  #divider{
+    &:after{
+      background-color: $white;
+    }
+    span{
+      background-color: #444444;
+      color: $white;
+    }
+  }
+}
+
 #divider{
   padding: 10px 0px;
   width: 100%;

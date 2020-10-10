@@ -4,12 +4,14 @@ import ReactDOM from 'react-dom';
 import './CalorieCalculator.scss';
 import SearchResults from "../SearchResults/SearchResults";
 import useSpinner from "../../hooks/useSpinner";
+import {THEMES} from "../../StaticData";
 
 export default function CalorieCalculator(props){
     const [show, setShow] = useState(false);
     const [query, setQuery] = useState('');
     const [customFoodName, setCustomFoodName] = useState('');
     const [customFoodCalorie, setCustomFoodCalorie] = useState('');
+    const variant = document.body.classList.contains(THEMES.LIGHT_THEME) ? '' : 'dark';
     const [spinner, showSpinner, hideSpinner] = useSpinner();
 
     const handleClose = () => {
@@ -130,7 +132,7 @@ export default function CalorieCalculator(props){
                     </Form>
                     {
                         searchResults.length > 0 ?
-                            <Table striped bordered hover size="sm">
+                            <Table variant={variant} striped bordered hover size="sm">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -139,6 +141,7 @@ export default function CalorieCalculator(props){
                                     <th>Food</th>
                                     <th>Calories</th>
                                     <th>Weight</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -157,7 +160,7 @@ export default function CalorieCalculator(props){
                                     validated={customQueryFormValidated}
                                     onSubmit={customQueryFormSubmit}>
                                     <Form.Row>
-                                        <Col>
+                                        <Col xl={6} lg={6} md={5}>
                                             <Form.Control
                                                 size="sm"
                                                 required
@@ -168,7 +171,7 @@ export default function CalorieCalculator(props){
                                                     setCustomFoodName(e.target.value);
                                                 }}/>
                                         </Col>
-                                        <Col>
+                                        <Col xl={4} lg={4} md={4}>
                                             <Form.Control
                                                 size="sm"
                                                 required
@@ -179,12 +182,13 @@ export default function CalorieCalculator(props){
                                                     setCustomFoodCalorie(e.target.value);
                                                 }}/>
                                         </Col>
-                                        <Col>
+                                        <Col xl={2} lg={2} md={3}>
                                             <Button
+                                                block
                                                 variant={"link"}
                                                 type="submit"
                                                 size="sm"
-                                                className="dark-button">
+                                                className="add-buttons">
                                                 Add Food
                                             </Button>
                                         </Col>

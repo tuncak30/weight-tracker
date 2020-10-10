@@ -3,7 +3,22 @@
 html, body, #root, .vertical-center{
   min-height: 100vh;
 }
+.table thead th{
+  border-bottom: none;
+  font-weight: 400;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition-delay: 9999s;
+  transition-delay: 9999s;
+}
 
+.table td{
+  vertical-align: middle !important;
+  font-weight: lighter;
+}
 .vertical-center{
   display: flex;
   align-items: center;
@@ -13,7 +28,22 @@ body{
   background-color: $black;
   color: $white;
 }
-
+.btn.add-buttons{
+  font-size: 1.5rem;
+  font-weight: lighter;
+  color: $white;
+  background-color: $green;
+  border-radius: 5px;
+  transition: all 200ms ease-out;
+  &:hover{
+    color: $white;
+    background-color: $light-green;
+    text-decoration: none;
+  }
+  &.btn-sm{
+    font-size: 1rem;
+  }
+}
 .btn.dark-button{
   font-size: 1.5rem;
   font-weight: lighter;
@@ -132,6 +162,7 @@ body.DARK_THEME{
     }
   }
 }
+
 body.LIGHT_THEME{
   #spinner-glass{
     background-color: rgba(255,255,255,0.7);

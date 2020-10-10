@@ -1,5 +1,4 @@
 @import "Variables";
-@import 'node_modules/react-big-calendar/lib/sass/styles';
 
 .custom-section-containers{
   background-color: $dark-gray;
@@ -85,6 +84,11 @@ body.LIGHT_THEME{
 body.DARK_THEME{
   .fc{
     background-color: $black;
+  }
+  .fc-daygrid-day{
+    &:hover{
+      background-color: $dark-gray;
+    }
   }
   .fc a{
     color: $white;
