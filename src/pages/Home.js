@@ -54,7 +54,7 @@ function Home(){
                 end: new Date().getTime(),
                 fluctuation: todaysWeight - lastWeight <= 0 ? "down" : "up",
                 start: new Date().getTime(),
-                title: todaysWeight + "(" + (todaysWeight - lastWeight <= 0 ? "-" : "+") + (Math.round(Math.abs(todaysWeight - lastWeight) * 10) / 10) + "kg)"
+                title: todaysWeight + " (" + (todaysWeight - lastWeight <= 0 ? "-" : "+") + (Math.round(Math.abs(todaysWeight - lastWeight) * 10) / 10) + "kg)"
             })
         }
         setTodaysWeightValidated(true);
@@ -82,8 +82,8 @@ function Home(){
                 array[i+1] = {
                     ...array[i+1],
                     title: array[i+1].title.indexOf('(') > 0 ?
-                        array[i+1].title.substring(0, array[i+1].title.indexOf('(')).trim() + ' (' + sign + fluctuation +' kg)' :
-                        array[i+1].title + ' (' + sign + fluctuation +' kg)'
+                        array[i+1].title.substring(0, array[i+1].title.indexOf('(')).trim() + ' (' + sign + Math.round(fluctuation * 10) / 10 +' kg)' :
+                        array[i+1].title + ' (' + sign + Math.round(fluctuation * 10) / 10 +' kg)'
                 }
             }
         }
@@ -181,7 +181,7 @@ function Home(){
                                                             placeholder="Today's weight..."
                                                             maxLength="5"
                                                             type="text"
-                                                            defaultValue={todaysWeight}
+                                                            value={todaysWeight}
                                                             onChange={(e) => {
                                                                 if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
                                                                     setTodaysWeight(e.target.value);
