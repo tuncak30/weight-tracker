@@ -9,10 +9,12 @@ import '../styles/Home.scss';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CalorieCalculator from "../components/CalorieCalculator/CalorieCalculator";
 import SportTracker from "../components/SportTracker/SportTracker";
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
 import useModal from "../hooks/useModal";
 import WeightFluctuation from "../components/WeightFluctuation/WeightFluctuation";
+import FullCalendar, { formatDate } from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
 function Home(){
     const {
         initialState,
@@ -22,11 +24,12 @@ function Home(){
     } = useContext(GlobalContext);
 
     const [todaysWeight, setTodaysWeight] = useState('');
-    const localizer = momentLocalizer(moment)
     const date = new Date();
     const myEventsList = alterWeightArray(state.kgs);
     const [theme, setTheme] = useTheme(localStorage.getItem('WEIGHT_TRACKER_THEME') === null ? state.theme : localStorage.getItem('WEIGHT_TRACKER_THEME'));
     const [todaysWeightValidated, setTodaysWeightValidated] = useState(false);
+    const calendarRef = React.createRef()
+
     const todaysWeightFormSubmit = (event) => {
         const todaysWeightForm = event.currentTarget;
         if (todaysWeightForm.checkValidity() === false) {
@@ -39,6 +42,18 @@ function Home(){
             setTodaysWeight('');
             addTodaysWeight(todaysWeight);
             addCurrentWeight(todaysWeight);
+            let calendarApi = calendarRef.current.getApi();
+            let lastWeightObj = state.kgs[state.kgs.length - 1];
+            let lastWeight = parseFloat(lastWeightObj.title.split(" ")[0]);
+
+            calendarApi.addEvent({
+                backgroundColor: todaysWeight - lastWeight <= 0 ? "#04DC71" : "#FA114F",
+                difference: Math.round((todaysWeight - lastWeight) * 10) / 10,
+                end: new Date(),
+                fluctuation: todaysWeight - lastWeight <= 0 ? "down" : "up",
+                start: new Date(),
+                title: todaysWeight + "(" + (todaysWeight - lastWeight <= 0 ? "-" : "+") + (Math.round(Math.abs(todaysWeight - lastWeight) * 10) / 10) + "kg)"
+            })
         }
         setTodaysWeightValidated(true);
     }
@@ -53,9 +68,11 @@ function Home(){
                 }
                 if(parseFloat(array[i+1].title.split(" ")[0]) <= parseFloat(array[i].title.split(" ")[0])){
                     array[i+1] = {...array[i+1], fluctuation: 'down'}
+                    array[i+1] = {...array[i+1], backgroundColor: '#04DC71'}
                 }
                 else{
                     array[i+1] = {...array[i+1], fluctuation: 'up'}
+                    array[i+1] = {...array[i+1], backgroundColor: '#FA114F'}
                 }
                 array[i+1] = {...array[i+1], difference: fluctuation}
                 array[i+1] = {...array[i+1], title: array[i+1].title + '(' + sign + fluctuation +' kg)'}
@@ -72,33 +89,37 @@ function Home(){
         else{
             backgroundColor = '#FA114F';
         }
-        let style = {
-            backgroundColor: backgroundColor,
-        };
-        return {
-            style: style
-        };
+        return backgroundColor;
     }
 
     return(
         <>
             <Container fluid>
                 <Row>
-                    <Col className="p-0 position-fixed" xl={6} lg={6} md={6} sm={6} xs={12}>
+                    <Col className="p-0 position-fixed over-right-col" xl={6} lg={6} md={6} sm={6} xs={12}>
                         <div id="calendar-container">
                             <Animated
                                 animationIn="fadeIn"
                                 animationOut="fadeOut"
                                 animationInDelay={100}
                                 isVisible={true}>
-                            <Calendar
-                                localizer={localizer}
-                                events={myEventsList}
-                                startAccessor="start"
-                                endAccessor="end"
-                                eventPropGetter={(determineBg)}
-                                style={{ height: window.innerHeight }}
-                            />
+                                <FullCalendar
+                                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                                    headerToolbar={{
+                                        left: 'prev,next today',
+                                        center: 'title',
+                                        right: ''
+                                    }}
+                                    ref={calendarRef}
+                                    height={window.innerHeight}
+                                    initialView='dayGridMonth'
+                                    editable={false}
+                                    selectable={true}
+                                    selectMirror={true}
+                                    dayMaxEvents={true}
+                                    weekends={true}
+                                    initialEvents={myEventsList}
+                                />
                             </Animated>
                         </div>
                     </Col>

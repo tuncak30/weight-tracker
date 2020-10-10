@@ -11,6 +11,109 @@
     font-weight: 500;
   }
 }
+.over-right-col{
+  z-index: 99;
+}
+
+.fc a{
+  font-weight: 300;
+}
+
+.fc .fc-toolbar.fc-header-toolbar{
+  margin-bottom: 0px !important;
+  padding: 3px 0px 2px 0px;
+  position: relative;
+  .fc-button-primary{
+    background-color: transparent;
+    font-weight: 300;
+    border: none;
+    outline: none;
+    &:active, &:focus{
+      box-shadow: none !important;
+      outline: none !important;
+    }
+  }
+}
+.fc-col-header-cell-cushion{
+  font-weight: 300;
+  font-size: 1rem;
+}
+.fc-toolbar-title{
+  font-weight: lighter;
+  font-size: 1rem !important;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.fc-col-header-cell-cushion, .fc-daygrid-day-number{
+  &:hover{
+    text-decoration: none;
+  }
+}
+
+body.LIGHT_THEME{
+  .fc a{
+    color: $black;
+  }
+  .fc-day-today{
+    background-color: #efefef !important;
+  }
+  .fc .fc-toolbar.fc-header-toolbar{
+    background-color: $dark-gray;
+  }
+  .fc-col-header-cell-cushion{
+    color: $black;
+  }
+  .fc .fc-toolbar-title{
+    color: $white;
+  }
+  .fc-day-other{
+    background-image: linear-gradient(45deg,#efefef 4.55%,#fff 0,#fff 50%,#efefef 0,#efefef 54.55%,#fff 0,#fff);
+    background-size: 15.56px 15.56px;
+  }
+}
+body.DARK_THEME{
+  .fc{
+    background-color: $black;
+  }
+  .fc a{
+    color: $white;
+  }
+  .fc-day-today{
+    background-color: $light-gray !important;
+    .fc-daygrid-day-number{
+      color: $white;
+    }
+  }
+  .fc .fc-toolbar.fc-header-toolbar{
+    background-color: $dark-gray;
+  }
+  .fc-col-header-cell-cushion{
+    color: $white;
+  }
+  .fc .fc-toolbar-title{
+    color: $white;
+  }
+  .fc-day-other{
+    background-image: linear-gradient(45deg,$dark-gray 4.55%,#000 0,#000 50%,$dark-gray 0,$dark-gray 54.55%,#000 0,#000);
+    background-size: 15.56px 15.56px;
+  }
+  .fc-theme-standard th{
+    border: 1px solid $dark-gray;
+    border-bottom: none;
+  }
+  .fc-daygrid-more-link{
+    color: $white !important;
+  }
+  .fc-theme-standard td{
+    border: 1px solid $dark-gray;
+  }
+  .fc-theme-standard .fc-scrollgrid{
+    border: none;
+  }
+}
+
 .rbc-calendar{
   border-right: 1px solid $dark-gray;
   background-color: $black;
