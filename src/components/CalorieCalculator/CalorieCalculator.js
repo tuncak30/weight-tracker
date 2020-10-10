@@ -1,18 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Form, Modal, Row, Container, Table} from "react-bootstrap";
 import ReactDOM from 'react-dom';
 import './CalorieCalculator.scss';
 import SearchResults from "../SearchResults/SearchResults";
 import useSpinner from "../../hooks/useSpinner";
 import {THEMES} from "../../StaticData";
+import {GlobalContext} from "../../context/GlobalContext";
 
 export default function CalorieCalculator(props){
+    const {state, addMeal} = useContext(GlobalContext);
     const [show, setShow] = useState(false);
     const [query, setQuery] = useState('');
     const [customFoodName, setCustomFoodName] = useState('');
     const [customFoodCalorie, setCustomFoodCalorie] = useState('');
     const variant = document.body.classList.contains(THEMES.LIGHT_THEME) ? '' : 'dark';
     const [spinner, showSpinner, hideSpinner] = useSpinner();
+    const [consumedMeals, setConsumedMeals] = useState(state.meals);
 
     const handleClose = () => {
         setShow(false);
@@ -24,7 +27,6 @@ export default function CalorieCalculator(props){
     const [searchResults, setSearchResults] = useState([]);
 
     const customQueryFormSubmit = (event) => {
-
         const customQueryForm = event.currentTarget;
         if (customQueryForm.checkValidity() === false) {
             event.preventDefault();
@@ -82,8 +84,9 @@ export default function CalorieCalculator(props){
         setShow(true);
     }
 
-    function setSelectedFoods(){
-
+    function setSelectedFoods(meal){
+        console.log(meal);
+        addMeal(meal);
     }
 
     return(
@@ -146,13 +149,17 @@ export default function CalorieCalculator(props){
                                 </thead>
                                 <tbody>
                                 {searchResults.map((item, i) =>
-                                    <SearchResults key={item.food_name} data={item}></SearchResults>
+                                    <SearchResults
+                                        key={item.food_name}
+                                        handleClick={() => setSelectedFoods(item)}
+                                        data={item}>
+                                    </SearchResults>
                                 )}
                                 </tbody>
                             </Table>
                             :
                             <>
-                                <p className="welcome-texts smaller-texts-subpages">Enter a query like " 1 cup mashed potatoes and 2 tbsp gravy " to see how it works. We support tens of thousands of foods, including international dishes.</p>
+                                <p className="welcome-texts smaller-texts-subpages">Enter a query like "1 cup mashed potatoes and 2 tbsp gravy" to see how it works. We support tens of thousands of foods, including international dishes.</p>
                                     <div id="divider"><span>OR</span></div>
                                 <p className="welcome-texts smaller-texts-subpages">You can enter a custom entry</p>
                                 <Form
@@ -207,7 +214,11 @@ export default function CalorieCalculator(props){
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <p className="welcome-texts smaller-texts-subpages text-center pt-1 pb-1 mt-3 mb-3">You haven't enter anything yet</p>
+            {
+                consumedMeals.length === 0 ?
+                    <p className="welcome-texts smaller-texts-subpages text-center pt-1 pb-1 mt-3 mb-3">You haven't enter any data for today yet</p> :
+                    consumedMeals.map((item, i) => <div>{item.meal.food_name}</div>)
+            }
             <Button
                 variant={"link"}
                 size="sm"

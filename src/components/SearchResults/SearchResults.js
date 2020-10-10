@@ -13,6 +13,7 @@ export default function SearchResults(props){
             <td>{props.data.serving_weight_grams}</td>
             <td>
                 <Button
+                    onClick={() => props.handleClick(props.data)}
                     block
                     variant={"link"}
                     type="submit"

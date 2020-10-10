@@ -12,7 +12,8 @@ let initialState = JSON.parse(localStorage.getItem('WEIGHT_TRACKER_DATA')) === n
         targetWeight: ''
     },
     theme: 'LIGHT_THEME',
-    kgs: []
+    kgs: [],
+    meals: []
 } : JSON.parse(localStorage.getItem('WEIGHT_TRACKER_DATA'));
 
 export const GlobalContext = createContext(initialState);
@@ -44,6 +45,7 @@ export const GlobalProvider = ({ children }) => {
             payload: age
         })
     }
+
 
     function addGender(gender){
         dispatch({
@@ -91,6 +93,16 @@ export const GlobalProvider = ({ children }) => {
         })
     }
 
+    function addMeal(meal){
+        dispatch({
+            type: 'ADD_MEAL',
+            payload: {
+                meal: meal,
+                consumed: new Date().getTime()
+            }
+        })
+    }
+
     return(
         <GlobalContext.Provider value={{
             initialState: initialState,
@@ -103,7 +115,8 @@ export const GlobalProvider = ({ children }) => {
             addCurrentWeight,
             addTargetWeight,
             changeTheme,
-            addTodaysWeight
+            addTodaysWeight,
+            addMeal
         }}>
                 { children }
         </GlobalContext.Provider>

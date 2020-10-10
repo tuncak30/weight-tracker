@@ -63,6 +63,11 @@ export default (state, action) => {
                 ...state,
                 kgs: [...state.kgs, action.payload]
             }
+        case 'ADD_MEAL':
+            return {
+                ...state,
+                meals: [...state.meals, action.payload]
+            }
         default:
             return state
     }
