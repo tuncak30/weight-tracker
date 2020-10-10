@@ -17,6 +17,7 @@ export default function CalorieCalculator(props){
     const variant = document.body.classList.contains(THEMES.LIGHT_THEME) ? '' : 'dark';
     const [spinner, showSpinner, hideSpinner] = useSpinner();
     const [consumedMeals, setConsumedMeals] = useState(state.meals);
+
     const handleShow = () => setShow(true);
     const [queryFormValidated, setQueryFormValidated] = useState(false);
     const [customQueryFormValidated, setCustomQueryFormValidated] = useState(false);
