@@ -98,7 +98,7 @@ function Home(){
     }
 
     function handleDateSelect(info){
-        setSelectedDate(info.start)
+        setSelectedDate(info.date)
     }
 
     function isToday (date){
@@ -129,7 +129,7 @@ function Home(){
                                     ref={calendarRef}
                                     height={calendarHeight}
                                     initialView='dayGridMonth'
-                                    select={handleDateSelect}
+                                    dateClick={handleDateSelect}
                                     editable={false}
                                     selectable={true}
                                     selectMirror={true}
