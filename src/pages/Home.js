@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import useTheme from "../hooks/useTheme";
 import {GlobalContext} from "../context/GlobalContext";
 import {Form, Col, Row, Button, Container} from 'react-bootstrap';
@@ -27,7 +27,17 @@ function Home(){
     const [theme, setTheme] = useTheme(localStorage.getItem('WEIGHT_TRACKER_THEME') === null ? state.theme : localStorage.getItem('WEIGHT_TRACKER_THEME'));
     const [todaysWeightValidated, setTodaysWeightValidated] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const calendarRef = React.createRef()
+    const [calendarHeight, setCalendarHeight] = useState(window.innerHeight);
+    const calendarRef = React.createRef();
+
+    useEffect(() => {
+        function handleResize(){
+            setCalendarHeight(window.innerHeight);
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize);
+    }, [window.innerHeight])
 
     const todaysWeightFormSubmit = (event) => {
         const todaysWeightForm = event.currentTarget;
@@ -117,7 +127,7 @@ function Home(){
                                         right: ''
                                     }}
                                     ref={calendarRef}
-                                    height={window.innerHeight}
+                                    height={calendarHeight}
                                     initialView='dayGridMonth'
                                     select={handleDateSelect}
                                     editable={false}
