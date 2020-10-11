@@ -28,6 +28,25 @@ body{
   background-color: $black;
   color: $white;
 }
+
+.toast{
+  right: 50px;
+  position: fixed;
+  display: block;
+  opacity: 1;
+  z-index: 999;
+  bottom: 20px;
+  color: $white;
+}
+
+.toast-success{
+  background-color: $green;
+}
+
+.toast-fail{
+  background-color: $pink;
+}
+
 .btn.add-buttons{
   font-size: 1.5rem;
   font-weight: lighter;
