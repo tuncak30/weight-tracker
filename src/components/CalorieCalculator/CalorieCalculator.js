@@ -17,7 +17,6 @@ export default function CalorieCalculator(props){
     const variant = document.body.classList.contains(THEMES.LIGHT_THEME) ? '' : 'dark';
     const [spinner, showSpinner, hideSpinner] = useSpinner();
     const [consumedMeals, setConsumedMeals] = useState(state.meals);
-
     const handleShow = () => setShow(true);
     const [queryFormValidated, setQueryFormValidated] = useState(false);
     const [customQueryFormValidated, setCustomQueryFormValidated] = useState(false);
@@ -27,7 +26,7 @@ export default function CalorieCalculator(props){
     const [toastVariant, setToastVariant] = useState('toast-success');
 
     for(let i=0; i<state.meals.length; i++){
-        totalCalories = totalCalories + state.meals[i].meal.nf_calories;
+        totalCalories = totalCalories + (isToday(state.meals[i].consumed) ? state.meals[i].meal.nf_calories : 0);
     }
 
     const handleClose = () => {
@@ -130,6 +129,25 @@ export default function CalorieCalculator(props){
         setShow(false);
         setToastVariant('toast-success');
         setToastBody('Meal successfully added!');
+    }
+
+    function isToday (date){
+        const d = new Date(date);
+        const today = new Date();
+        return d.getDate() == today.getDate() &&
+            d.getMonth() == today.getMonth() &&
+            d.getFullYear() == today.getFullYear()
+    }
+
+    function getTodaysMeals(meals){
+        debugger
+        let todaysMeals = new Array();
+        for(var i=0; i<meals.length; i++){
+            if(isToday(meals[i].consumed)){
+                todaysMeals.push(meals[i]);
+            }
+        }
+        return todaysMeals;
     }
 
     return(
@@ -262,7 +280,8 @@ export default function CalorieCalculator(props){
                     </Modal.Footer>
                 </Modal>
                 {
-                    consumedMeals.length === 0 ?
+
+                    getTodaysMeals(consumedMeals).length === 0 ?
                         <p className="welcome-texts smaller-texts-subpages text-center pt-1 pb-1 mt-3 mb-3">You haven't enter any data for today yet</p> :
                         <>
                             <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-1">You entered foods listed below for today</p>
@@ -279,7 +298,8 @@ export default function CalorieCalculator(props){
                                 </thead>
                                 <tbody>
                                 {
-                                    consumedMeals.map((item, i) =>
+                                    getTodaysMeals(consumedMeals).map((item, i) =>
+
                                         item.meal.customFood ?
                                             <tr>
                                                 <td className="img-container">N/A</td>
@@ -302,7 +322,6 @@ export default function CalorieCalculator(props){
                                 </tbody>
                             </Table>
                             <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-3">Total Calories: {Math.round(totalCalories * 10) / 10} kcal</p>
-
                         </>
                 }
                 <Button
