@@ -150,7 +150,7 @@ export default function SportTracker(props){
     }
 
     function getTodaysExercise(exercises){
-        let todaysExercises = new Array();
+        let todaysExercises = [];
         for(var i=0; i<exercises.length; i++){
             if(isToday(exercises[i].timestamp)){
                 todaysExercises.push(exercises[i]);

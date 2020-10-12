@@ -318,7 +318,7 @@ export default function CalorieCalculator(props){
                                 }
                                 </tbody>
                             </Table>
-                            <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-3"><b>Total Calories:</b> {Math.round(totalCalories * 10) / 10} kcal</p>
+                            <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-3"><b>Total Calories Taken:</b> {Math.round(totalCalories * 10) / 10} kcal</p>
                         </>
                 }
                 <Button

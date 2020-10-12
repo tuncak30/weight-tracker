@@ -81,17 +81,17 @@ export default function PastDaysView(selectedDate){
                     <Row>
 
                         <Col>
-                            <div className="summary-containers calories mt-2 mb-2"><div className="text">{totalCaloriesBurnt} kcal burnt</div></div>
+                            <div className="summary-containers calories mt-2 mb-2"><div className="text">{Math.round(totalCaloriesBurnt)} kcal burnt</div></div>
                         </Col>
                         <Col>
-                            <div className="summary-containers exercises mt-2 mb-2"><div className="text">{totalCalories} kcal taken</div></div>
+                            <div className="summary-containers exercises mt-2 mb-2"><div className="text">{Math.round(totalCalories)} kcal taken</div></div>
                         </Col>
                         <Col>
                             <div className="summary-containers overall mt-2 mb-2">
                                 <div className="text">
                                 {
                                     isNaN(findTodaysDifference()) ? 'N/A' :
-                                    findTodaysDifference() === 0 ? 'Maintaned weight' :
+                                    findTodaysDifference() === 0 ? 'Maintained weight' :
                                         findTodaysDifference() < 0 ?
                                             'Lost ' + Math.abs(Math.round(findTodaysDifference() * 100) / 100) + ' kgs' :
                                             'Gained ' + Math.abs(Math.round(findTodaysDifference() * 100) / 100) + ' kgs'
@@ -153,7 +153,7 @@ export default function PastDaysView(selectedDate){
                                     }
                                     </tbody>
                                 </Table>
-                                <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-3"><b>Total Calories:</b> {Math.round(totalCalories * 10) / 10} kcal</p>
+                                <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-3"><b>Total Calories Taken:</b> {Math.round(totalCalories * 10) / 10} kcal</p>
                             </>
                     }
                 </div>
@@ -171,7 +171,7 @@ export default function PastDaysView(selectedDate){
                         getTodaysExercises(finishedExercises).length === 0 ?
                             <p className="welcome-texts smaller-texts-subpages text-center pt-1 pb-1 mt-3 mb-3">You haven't enter any data for this day</p> :
                             <>
-                                <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-1">You entered foods listed below for this day</p>
+                                <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-1">You entered exercises listed below for this day</p>
 
                                 {getTodaysExercises(finishedExercises).map((item, i) => <ExerciseResults key={item.exercise.name} data={item.exercise}/>)}
 

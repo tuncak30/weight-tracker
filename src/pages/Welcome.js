@@ -63,10 +63,10 @@ function Welcome(){
         setPersonalInformationFormValidated(true);
     }
 
-    function stepThreeSubmitHandler(e){
+    async function stepThreeSubmitHandler(e){
         localStorage.setItem('WEIGHT_TRACKER_THEME', theme);
-        login(true);
-        history.push('/home');
+        await login(true);
+        history.push('/');
     }
 
     function handleTheme(theme){

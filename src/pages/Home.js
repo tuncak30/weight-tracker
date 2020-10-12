@@ -31,13 +31,15 @@ function Home(){
     const calendarRef = React.createRef();
 
     useEffect(() => {
+
+        document.title = 'Weight Tracker - Dashboard';
         function handleResize(){
             setCalendarHeight(window.innerHeight);
         }
 
         window.addEventListener('resize', handleResize)
         return () => window.removeEventListener('resize', handleResize);
-    }, [window.innerHeight])
+    })
 
     const todaysWeightFormSubmit = (event) => {
         const todaysWeightForm = event.currentTarget;

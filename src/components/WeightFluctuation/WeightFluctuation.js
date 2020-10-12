@@ -5,11 +5,13 @@ import {Button, Modal} from "react-bootstrap";
 
 export default function WeightFluctuation(props){
     const { state } = useContext(GlobalContext);
+    const minWeight = parseInt(state.user.targetWeight) - 10;
+    const maxWeight = parseInt(state.user.currentWeight) + 10;
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
 
     function convertArray(array){
-        let newArray = new Array();
+        let newArray = [];
 
         for(let i=0; i<array.length; i++){
             newArray.push({
@@ -31,7 +33,7 @@ export default function WeightFluctuation(props){
                 show={show}
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
-                size="lg"
+                size="xl"
                 onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Weight Fluctuation</Modal.Title>
@@ -41,7 +43,7 @@ export default function WeightFluctuation(props){
                         <LineChart data={data} margin={{ top: 5, right: 0, bottom: 5, left: 0 }}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="Date" />
-                            <YAxis domain={[65, 80]} />
+                            <YAxis domain={[minWeight, maxWeight]} />
                             <Tooltip />
                             <Legend />
                             <Line type="monotone" dataKey="Weight" stroke="#8884d8" />
@@ -64,7 +66,7 @@ export default function WeightFluctuation(props){
                     <LineChart data={data} margin={{ top: 5, right: 0, bottom: 5, left: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="Date" />
-                        <YAxis domain={[65, 80]} />
+                        <YAxis domain={[minWeight, maxWeight]} />
                         <Tooltip />
                         <Legend />
                         <Line type="monotone" dataKey="Weight" stroke="#8884d8" />
