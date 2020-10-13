@@ -29,6 +29,13 @@ body{
   color: $white;
 }
 
+#menu-trigger{
+  a{
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
 .toast{
   right: 50px;
   position: fixed;

@@ -48,6 +48,7 @@ function Welcome(){
         }
         setWelcomeFormValidated(true);
     }
+
     const stepTwoSubmitHandler = (event) => {
         const personalInformationForm = event.currentTarget;
         if (personalInformationForm.checkValidity() === false) {
