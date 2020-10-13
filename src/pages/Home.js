@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import useTheme from "../hooks/useTheme";
 import {GlobalContext} from "../context/GlobalContext";
 import {Form, Col, Row, Button, Container} from 'react-bootstrap';
@@ -8,16 +8,14 @@ import {Animated} from "react-animated-css";
 import '../styles/Home.scss';
 import CalorieCalculator from "../components/CalorieCalculator/CalorieCalculator";
 import SportTracker from "../components/SportTracker/SportTracker";
-import useModal from "../hooks/useModal";
 import WeightFluctuation from "../components/WeightFluctuation/WeightFluctuation";
-import FullCalendar, { formatDate } from '@fullcalendar/react'
+import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import PastDaysView from "../components/PastDaysView/PastDaysView";
 function Home(){
     const {
-        initialState,
         state,
         addCurrentWeight,
         addTodaysWeight
@@ -95,9 +93,9 @@ function Home(){
 
     function isToday (date){
         const today = new Date()
-        return date.getDate() == today.getDate() &&
-            date.getMonth() == today.getMonth() &&
-            date.getFullYear() == today.getFullYear()
+        return date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
     }
 
     return(

@@ -1,9 +1,8 @@
 import React from 'react';
 import './SearchResults.scss';
-import {Button, Col} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 export default function ExerciseSearchResults(props){
-    debugger
     return(
         <tr>
             <td>{props.data.name}</td>

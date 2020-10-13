@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Col, Form, Modal, Row, Container, Table, Toast, ToastBody, ToastHeader} from "react-bootstrap";
+import {Button, Col, Form, Modal, Table, Toast} from "react-bootstrap";
 import ReactDOM from 'react-dom';
 import './CalorieCalculator.scss';
 import SearchResults from "../SearchResults/SearchResults";
@@ -13,11 +13,10 @@ export default function CalorieCalculator(props){
     const [query, setQuery] = useState('');
     const [customFoodName, setCustomFoodName] = useState('');
     const [customFoodCalorie, setCustomFoodCalorie] = useState('');
-    let [totalCalories, setTotalCalories] = useState(0);
+    let totalCalories = 0;
     const variant = document.body.classList.contains(THEMES.LIGHT_THEME) ? '' : 'dark';
     const [spinner, showSpinner, hideSpinner] = useSpinner();
     const [consumedMeals, setConsumedMeals] = useState(state.meals);
-    const handleShow = () => setShow(true);
     const [queryFormValidated, setQueryFormValidated] = useState(false);
     const [customQueryFormValidated, setCustomQueryFormValidated] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
@@ -89,7 +88,7 @@ export default function CalorieCalculator(props){
                     body: JSON.stringify(opts)
                 })
                     .then(response => {
-                        if(response.status == 404){
+                        if(response.status === 404){
                             throw new Error();
                         }
                         else{
@@ -134,13 +133,13 @@ export default function CalorieCalculator(props){
     function isToday (date){
         const d = new Date(date);
         const today = new Date();
-        return d.getDate() == today.getDate() &&
-            d.getMonth() == today.getMonth() &&
-            d.getFullYear() == today.getFullYear()
+        return d.getDate() === today.getDate() &&
+            d.getMonth() === today.getMonth() &&
+            d.getFullYear() === today.getFullYear()
     }
 
     function getTodaysMeals(meals){
-        let todaysMeals = new Array();
+        let todaysMeals = [];
         for(var i=0; i<meals.length; i++){
             if(isToday(meals[i].consumed)){
                 todaysMeals.push(meals[i]);

@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Spinner} from "react-bootstrap";
-import {Animated} from "react-animated-css";
 
 function useSpinner(){
     const [showSpinner, setShowSpinner] = useState(false);

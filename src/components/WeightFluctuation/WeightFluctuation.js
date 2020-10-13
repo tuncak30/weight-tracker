@@ -1,14 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {GlobalContext} from "../../context/GlobalContext";
 import { LineChart, Legend, ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import {Button, Form, Modal} from "react-bootstrap";
-import useModal from "../../hooks/useModal";
+import {Button, Modal} from "react-bootstrap";
 
 export default function WeightFluctuation(props){
     const { state } = useContext(GlobalContext);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     function convertArray(array){
         let newArray = new Array();

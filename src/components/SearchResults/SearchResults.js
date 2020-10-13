@@ -1,6 +1,6 @@
 import React from 'react';
 import './SearchResults.scss';
-import {Button, Col} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 export default function SearchResults(props){
     return(

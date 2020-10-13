@@ -1,8 +1,8 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { HashNavigation } from 'swiper';
-import {Form, Col, Row, Button, Container, InputGroup} from 'react-bootstrap';
-import {BrowserRouter as Router, NavLink, Switch} from 'react-router-dom';
+import {Form, Col, Row, Button, Container} from 'react-bootstrap';
+import {useHistory} from 'react-router-dom';
 import '../styles/Welcome.scss';
 import 'swiper/swiper.scss';
 import {GlobalContext} from "../context/GlobalContext";
@@ -33,6 +33,7 @@ function Welcome(){
     const [welcomeFormValidated, setWelcomeFormValidated] = useState(false);
     const [personalInformationFormValidated, setPersonalInformationFormValidated] = useState(false);
     const [swiper, setSwiper] = useState();
+    const history = useHistory();
 
     const stepOneSubmitHandler = (event) => {
         const welcomeForm = event.currentTarget;
@@ -65,6 +66,7 @@ function Welcome(){
     function stepThreeSubmitHandler(e){
         localStorage.setItem('WEIGHT_TRACKER_THEME', theme);
         login(true);
+        history.push('/home');
     }
 
     function handleTheme(theme){
@@ -164,7 +166,7 @@ function Welcome(){
                                                 placeholder="Age..."
                                                 maxLength="3"
                                                 type="text"
-                                                defaultValue={age}
+                                                value={age}
                                                 onChange={(e) => {
                                                     if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
                                                         addAge(e.target.value);
@@ -195,7 +197,7 @@ function Welcome(){
                                                 required
                                                 placeholder="(cm) Height..."
                                                 type="text"
-                                                defaultValue={height}
+                                                value={height}
                                                 onChange={(e) => {
                                                     if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
                                                         addHeight(e.target.value);
@@ -213,7 +215,7 @@ function Welcome(){
                                                 maxLength="5"
                                                 required
                                                 type="text"
-                                                defaultValue={currentWeight}
+                                                value={currentWeight}
                                                 onChange={(e) => {
                                                     if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
                                                         addCurrentWeight(e.target.value);
@@ -229,7 +231,7 @@ function Welcome(){
                                                 maxLength="5"
                                                 required
                                                 type="text"
-                                                defaultValue={targetWeight}
+                                                value={targetWeight}
                                                 onChange={(e) => {
                                                     if (e.target.value === '' || onlyNumbers.test(e.target.value)) {
                                                         addTargetWeight(e.target.value);
@@ -299,13 +301,11 @@ function Welcome(){
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <NavLink to={"/home"}>
                                         <Button
                                             variant={"link"}
                                             onClick={stepThreeSubmitHandler}
                                             className="dark-button mt-3 float-right">Finish
                                         </Button>
-                                        </NavLink>
                                     </Col>
                                 </Row>
                             </SwiperSlide>

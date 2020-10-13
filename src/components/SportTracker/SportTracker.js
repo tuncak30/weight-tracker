@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Col, Form, Modal, Row, Container, Table, Toast, ToastBody, ToastHeader} from "react-bootstrap";
+import {Button, Col, Form, Modal, Table, Toast} from "react-bootstrap";
 import ReactDOM from 'react-dom';
 import './SportTracker.scss';
 import ExerciseSearchResults from "../SearchResults/ExerciseSearchResults";
@@ -14,11 +14,10 @@ export default function SportTracker(props){
     const [query, setQuery] = useState('');
     const [customExerciseName, setCustomExerciseName] = useState('');
     const [customExerciseBurntCalorie, setCustomExerciseBurntCalorie] = useState('');
-    let [totalCaloriesBurnt, setTotalCaloriesBurnt] = useState(0);
+    let totalCaloriesBurnt = 0;
     const variant = document.body.classList.contains(THEMES.LIGHT_THEME) ? '' : 'dark';
     const [spinner, showSpinner, hideSpinner] = useSpinner();
     const [finishedExercises, setFinishedExercises] = useState(state.exercises);
-    const handleShow = () => setShow(true);
     const [queryFormValidated, setQueryFormValidated] = useState(false);
     const [customQueryFormValidated, setCustomQueryFormValidated] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
@@ -92,7 +91,7 @@ export default function SportTracker(props){
                     body: JSON.stringify(opts)
                 })
                     .then(response => {
-                        if(response.status == 404){
+                        if(response.status === 404){
                             throw new Error();
                         }
                         else{
@@ -100,10 +99,18 @@ export default function SportTracker(props){
                         }
                     })
                     .then(data => {
-                        if(data.exercises){
+                        if(data.exercises.length > 0){
                             hideSpinner();
                             setQuery('');
                             setSearchResults(data.exercises)
+                        }
+                        else{
+                            hideSpinner();
+                            setQuery('');
+                            setShow(false);
+                            setShowToast(true);
+                            setToastVariant('toast-fail');
+                            setToastBody('Your search query doesn\'t have any results, you can try a different one or enter your own custom exercise name and burnt calories')
                         }
                     }).catch(function() {
                     hideSpinner();
@@ -137,9 +144,9 @@ export default function SportTracker(props){
     function isToday (date){
         const d = new Date(date);
         const today = new Date();
-        return d.getDate() == today.getDate() &&
-            d.getMonth() == today.getMonth() &&
-            d.getFullYear() == today.getFullYear()
+        return d.getDate() === today.getDate() &&
+            d.getMonth() === today.getMonth() &&
+            d.getFullYear() === today.getFullYear()
     }
 
     function getTodaysExercise(exercises){

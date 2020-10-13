@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {GlobalContext} from "../../context/GlobalContext";
 import {MONTHS, THEMES} from "../../StaticData";
 import {Animated} from "react-animated-css";
@@ -9,21 +9,21 @@ import ExerciseResults from "../ExerciseResults/ExerciseResults";
 export default function PastDaysView(selectedDate){
     const {state} = useContext(GlobalContext);
     const date = new Date(selectedDate.date);
-    const [consumedMeals, setConsumedMeals] = useState(state.meals);
-    const [finishedExercises, setfinishedExercises] = useState(state.exercises);
+    const consumedMeals = state.meals;
+    const finishedExercises = state.exercises;
 
     const variant = document.body.classList.contains(THEMES.LIGHT_THEME) ? '' : 'dark';
-    let [totalCalories, setTotalCalories] = useState(0);
+    let totalCalories = 0;
     for(let i=0; i<state.meals.length; i++){
         totalCalories = totalCalories + (isToday(state.meals[i].consumed) ? state.meals[i].meal.nf_calories : 0);
     }
-    let [totalCaloriesBurnt, setTotalCaloriesBurnt] = useState(0);
+    let totalCaloriesBurnt = 0;
     for(let i=0; i<state.exercises.length; i++){
         totalCaloriesBurnt = totalCaloriesBurnt + (isToday(state.exercises[i].timestamp) ? state.exercises[i].exercise.nf_calories : 0);
     }
 
     function getTodaysMeals(meals){
-        let todaysMeals = new Array();
+        let todaysMeals = [];
         for(var i=0; i<meals.length; i++){
             if(isToday(meals[i].consumed)){
                 todaysMeals.push(meals[i]);
@@ -33,7 +33,7 @@ export default function PastDaysView(selectedDate){
     }
 
     function getTodaysExercises(exercises){
-        let todaysExercises = new Array();
+        let todaysExercises = [];
         for(var i=0; i<exercises.length; i++){
             if(isToday(exercises[i].timestamp)){
                 todaysExercises.push(exercises[i]);
@@ -45,9 +45,9 @@ export default function PastDaysView(selectedDate){
     function isToday (date){
         const d = new Date(date);
         const s = new Date(selectedDate.date)
-        return d.getDate() == s.getDate() &&
-            d.getMonth() == s.getMonth() &&
-            d.getFullYear() == s.getFullYear()
+        return d.getDate() === s.getDate() &&
+            d.getMonth() === s.getMonth() &&
+            d.getFullYear() === s.getFullYear()
     }
 
     function findTodaysDifference(){
@@ -91,10 +91,10 @@ export default function PastDaysView(selectedDate){
                                 <div className="text">
                                 {
                                     isNaN(findTodaysDifference()) ? 'N/A' :
-                                    findTodaysDifference() == 0 ? 'Maintaned weight' :
+                                    findTodaysDifference() === 0 ? 'Maintaned weight' :
                                         findTodaysDifference() < 0 ?
-                                            'Lost ' + Math.abs(findTodaysDifference()) + ' kgs' :
-                                            'Gained ' + Math.abs(findTodaysDifference()) + ' kgs'
+                                            'Lost ' + Math.abs(Math.round(findTodaysDifference() * 100) / 100) + ' kgs' :
+                                            'Gained ' + Math.abs(Math.round(findTodaysDifference() * 100) / 100) + ' kgs'
 
                                 }
                                 </div>
@@ -133,7 +133,7 @@ export default function PastDaysView(selectedDate){
                                         getTodaysMeals(consumedMeals).map((item, i) =>
 
                                             item.meal.customFood ?
-                                                <tr>
+                                                <tr key={i}>
                                                     <td className="img-container">N/A</td>
                                                     <td>N/A</td>
                                                     <td>N/A</td>
