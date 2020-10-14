@@ -140,7 +140,6 @@ export default function CalorieCalculator(props){
     }
 
     function getTodaysMeals(meals){
-        debugger
         let todaysMeals = new Array();
         for(var i=0; i<meals.length; i++){
             if(isToday(meals[i].consumed)){
@@ -158,7 +157,7 @@ export default function CalorieCalculator(props){
 
             <div className="custom-section-containers clearfix">
                 {ReactDOM.createPortal(spinner, document.getElementById('portal'))}
-                <div className="custom-section-headers">Calorie Calculator</div>
+                <div className="custom-section-headers">Meal Tracker</div>
 
                 <Modal
                     show={show}
@@ -168,7 +167,7 @@ export default function CalorieCalculator(props){
                     size="lg"
                     onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>New Food Entry</Modal.Title>
+                        <Modal.Title>New Meal Entry</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form
@@ -284,7 +283,7 @@ export default function CalorieCalculator(props){
                     getTodaysMeals(consumedMeals).length === 0 ?
                         <p className="welcome-texts smaller-texts-subpages text-center pt-1 pb-1 mt-3 mb-3">You haven't enter any data for today yet</p> :
                         <>
-                            <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-1">You entered foods listed below for today</p>
+                            <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-1">You entered meals listed below for today</p>
                             <Table variant={variant} striped bordered hover size="sm">
                                 <thead>
                                 <tr>
@@ -299,9 +298,8 @@ export default function CalorieCalculator(props){
                                 <tbody>
                                 {
                                     getTodaysMeals(consumedMeals).map((item, i) =>
-
                                         item.meal.customFood ?
-                                            <tr>
+                                            <tr key={item.meal.food_name}>
                                                 <td className="img-container">N/A</td>
                                                 <td>N/A</td>
                                                 <td>N/A</td>
@@ -321,14 +319,14 @@ export default function CalorieCalculator(props){
                                 }
                                 </tbody>
                             </Table>
-                            <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-3">Total Calories: {Math.round(totalCalories * 10) / 10} kcal</p>
+                            <p className="welcome-texts smaller-texts-subpages pt-1 pb-1 mt-1 mb-3"><b>Total Calories:</b> {Math.round(totalCalories * 10) / 10} kcal</p>
                         </>
                 }
                 <Button
                     variant={"link"}
                     size="sm"
                     onClick={openFoodSelectPopup}
-                    className="dark-button float-right">New Food Entry
+                    className="dark-button float-right">New Meal Entry
                 </Button>
             </div>
         </>

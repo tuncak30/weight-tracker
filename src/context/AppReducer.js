@@ -68,6 +68,11 @@ export default (state, action) => {
                 ...state,
                 meals: [...state.meals, action.payload]
             }
+        case 'ADD_EXERCISE':
+            return {
+                ...state,
+                exercises: [...state.exercises, action.payload]
+            }
         default:
             return state
     }
