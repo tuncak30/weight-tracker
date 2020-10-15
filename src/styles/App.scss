@@ -24,6 +24,14 @@ input:-webkit-autofill:active {
   align-items: center;
 }
 
+.gradient-text {
+  width: 100%;
+  color: transparent;
+  background-image: linear-gradient(to right, #005e7f, #61b6cd);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 body{
   background-color: $black;
   color: $white;
@@ -140,8 +148,13 @@ select.form-control{
   }
 }
 
+.disclaimer{
+  font-weight: lighter;
+  font-size: 1rem;
+}
+
 form{
-  input[type="text"]{
+  input[type="text"], input[type="password"], input[type="number"], input[type="email"]{
     background-color: transparent;
     border: none;
     border-radius: 0px;
@@ -219,7 +232,7 @@ body.LIGHT_THEME{
   }
 
   form{
-    input[type="text"]{
+    input[type="text"], input[type="password"], input[type="number"] , input[type="email"]{
       background-color: transparent;
       color: $black;
       border-bottom: 1px solid $pink;

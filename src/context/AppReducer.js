@@ -73,6 +73,12 @@ export default (state, action) => {
                 ...state,
                 exercises: [...state.exercises, action.payload]
             }
+
+        case 'ADD_SIGNED_UP_USER':
+            return {
+                ...state,
+                signedupuser: action.payload
+            }
         default:
             return state
     }

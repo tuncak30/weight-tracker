@@ -9,6 +9,8 @@ import {GlobalContext} from "../context/GlobalContext";
 import {Animated} from "react-animated-css";
 import {THEMES, onlyNumbers} from "../StaticData";
 import useTheme from "../hooks/useTheme";
+import firebase from "firebase";
+
 SwiperCore.use([HashNavigation]);
 
 function Welcome(){
@@ -66,6 +68,9 @@ function Welcome(){
 
     async function stepThreeSubmitHandler(e){
         localStorage.setItem('WEIGHT_TRACKER_THEME', theme);
+        /*let signedUpUser = await firebase.auth().currentUser;
+        await firebase.database().ref('users/' + signedUpUser.uid).set(JSON.stringify(state));*/
+
         await login(true);
         history.push('/');
     }
@@ -96,7 +101,7 @@ function Welcome(){
                                     animationOut="fadeOut"
                                     animationInDelay={100}
                                     isVisible={true}>
-                                    <p className="text-center welcome-texts big-text">Welcome to weight tracker!</p>
+                                    <p className="text-center welcome-texts big-text gradient-text">Welcome to weight tracker!</p>
                                 </Animated>
                                 <Animated
                                     animationIn="fadeIn"
@@ -154,7 +159,7 @@ function Welcome(){
                                 </Animated>
                             </SwiperSlide>
                             <SwiperSlide data-hash="personal-information">
-                                <p className="text-center welcome-texts big-text">Welcome <span id="user-name">{username.charAt(0).toUpperCase() + username.slice(1)}</span>!</p>
+                                <p className="text-center welcome-texts big-text gradient-text">Welcome <span id="user-name">{username.charAt(0).toUpperCase() + username.slice(1)}</span>!</p>
                                 <p className="text-center welcome-texts smaller-texts">In order to do our magic, we need a little bit more information about you</p>
                                 <Form
                                     noValidate
@@ -254,7 +259,7 @@ function Welcome(){
                                 </Form>
                             </SwiperSlide>
                             <SwiperSlide data-hash="theme-selection">
-                                <p className="text-center welcome-texts big-text">Okay then! One last step...</p>
+                                <p className="text-center welcome-texts big-text gradient-text">Okay then! One last step...</p>
                                 <p className="text-center welcome-texts smaller-texts">Please select your prefered theme, or you can select <span>auto</span> to leave it to us!</p>
                                 <Row className="mt-4">
                                     <Col className="text-center">
